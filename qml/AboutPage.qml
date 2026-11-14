@@ -33,7 +33,6 @@ Flickable {
                     Row {
                         spacing: 8
                         Chip { text: "App " + (page.app.settingsState.version || ""); tone: "accent" }
-                        Chip { text: page.app.library.length + (page.app.library.length === 1 ? " port" : " ports") }
                         Chip { text: "Windows" }
                     }
                     Text {
@@ -63,14 +62,14 @@ Flickable {
         // Fine print
         Card {
             Layout.fillWidth: true; revealOn: page.active; order: 2
-            ColumnLayout {
-                width: parent.width; spacing: 12
+            RowLayout {
+                width: parent.width; spacing: 16
                 Text {
                     Layout.fillWidth: true; wrapMode: Text.WordWrap; lineHeight: 1.25
                     text: "No games or Switch keys are included. You need your own copy of each game and your own prod.keys."
                     color: Theme.textDim; font.family: Theme.font; font.pixelSize: 13
                 }
-                Btn { text: "Open-source notices"; kind: "ghost"; onClicked: bridge.openNotices() }
+                Btn { text: "Open-source notices"; kind: "primary"; onClicked: bridge.openNotices() }
             }
         }
     }

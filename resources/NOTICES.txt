@@ -6,10 +6,12 @@ license; the ports it installs carry their own license files and credits.
   ReXGlue and sa2-nx       static recompilation and the Switch runtime
   reNut                    native renderer
   devkitPro and libnx      Nintendo Switch homebrew toolchain
-  hacBrewPack              NSP packing
+  hacBrewPack (GPL-2.0)    NSP packing. Included unmodified as a separate program (hacbrewpack.exe).
+                           License: licenses\hacBrewPack-LICENSE.txt
+                           Source:  https://github.com/rlaphoenix/hacBrewPack
   nx-hbloader (ISC)        basis of the NSP loader
   Qt for Python (PySide6)  this application's interface (LGPL v3)
-  Node.js                  runs the port's data tools (MIT)
+  Node.js (MIT)            runs the port's data tools. License: licenses\Node-LICENSE.txt
   Pillow                   icon conversion (HPND)
 
 No games and no Switch keys are included with this application.

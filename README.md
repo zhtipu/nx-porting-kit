@@ -10,6 +10,12 @@ Native Nintendo Switch ports of Xbox 360 games, in one app. Pick a game, add you
 
 More games appear in the library automatically. Use **Settings > Check for new games**.
 
+## Download
+
+Get **NXPortingKit.zip** from the [latest release](https://github.com/zhtipu/nx-porting-kit/releases/latest), extract it anywhere and run **NXPortingKit.exe**. Nothing needs installing.
+
+Windows may show a SmartScreen warning because the app is not code-signed. Choose **More info**, then **Run anyway**.
+
 ## What you need
 
 - Windows 10 or 11
