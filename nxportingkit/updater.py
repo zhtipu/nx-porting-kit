@@ -29,32 +29,35 @@ def check() -> dict:
     """{ok, available, version, notes, can_install, error}"""
     if os.environ.get("NXPK_OFFLINE"):
         return {"ok": False, "available": False, "error": "Offline mode."}
+    tag, notes, has_asset = "", "", True
     try:
         rel = net.get_json(f"https://api.github.com/repos/{REPO}/releases/latest", timeout=8)
+        tag = rel.get("tag_name", "")
+        notes = (rel.get("body") or "").strip()[:600]
+        has_asset = any(a.get("name") == ASSET for a in rel.get("assets", []))
     except net.NetError:
-        return {"ok": False, "available": False, "error": "Could not check for updates right now."}
-    tag = rel.get("tag_name", "")
+        try:                                   # the anonymous API can be rate limited: use the plain redirect
+            tag = net.latest_tag(REPO)
+        except net.NetError:
+            return {"ok": False, "available": False, "error": "Could not check for updates right now."}
     newer = _ver(tag) > _ver(paths.APP_VERSION)
-    has_asset = any(a.get("name") == ASSET for a in rel.get("assets", []))
     return {"ok": True, "available": bool(newer and has_asset), "version": tag.lstrip("v"),
-            "notes": (rel.get("body") or "").strip()[:600], "can_install": frozen(), "error": ""}
+            "notes": notes, "can_install": frozen(), "error": ""}
 
 
 def download_and_apply(progress, cancel=None) -> None:
     """Downloads the newest release and starts the swap script. The caller then quits the app."""
     if not frozen():
         raise net.NetError("Updating is not available in this build.")
-    rel = net.get_json(f"https://api.github.com/repos/{REPO}/releases/latest")
-    assets = {a["name"]: a["browser_download_url"] for a in rel.get("assets", [])}
-    if ASSET not in assets:
-        raise net.NetError("The latest release has no app file.")
     sha = None
-    if ASSET + ".sha256" in assets:
-        with urllib.request.urlopen(assets[ASSET + ".sha256"], timeout=15) as r:
+    try:
+        with urllib.request.urlopen(net.release_asset_url(REPO, "latest", ASSET + ".sha256"), timeout=15) as r:
             m = re.search(r"[0-9a-fA-F]{64}", r.read().decode("ascii", "ignore"))
             sha = m.group(0) if m else None
+    except Exception:  # noqa: BLE001  (the hash file is optional)
+        pass
     zpath = os.path.join(paths.cache_dir(), "NXPortingKit-update.zip")
-    net.download(assets[ASSET], zpath, progress, cancel, sha)
+    net.download(net.release_asset_url(REPO, "latest", ASSET), zpath, progress, cancel, sha)
 
     new_dir = os.path.join(paths.cache_dir(), "update_new")
     net.clear_dir(new_dir)

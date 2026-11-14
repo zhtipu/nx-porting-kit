@@ -100,12 +100,25 @@ def _rm(p: str) -> None:
 
 
 def release_asset_url(repo: str, tag: str, asset: str) -> str:
-    api = f"https://api.github.com/repos/{repo}/releases/" + ("latest" if tag in ("", "latest") else f"tags/{tag}")
-    rel = get_json(api)
-    for a in rel.get("assets", []):
-        if a.get("name") == asset:
-            return a["browser_download_url"]
-    raise NetError(f"{repo} has no release file named {asset}.")
+    """Direct download link of a release file. No API call, so GitHub's anonymous rate limit never applies."""
+    base = f"https://github.com/{repo}/releases"
+    if tag in ("", "latest"):
+        return f"{base}/latest/download/{asset}"
+    return f"{base}/download/{tag}/{asset}"
+
+
+def latest_tag(repo: str, timeout: float = 8.0) -> str:
+    """Tag of a repo's latest release, read from the redirect of /releases/latest (no API call)."""
+    req = urllib.request.Request(f"https://github.com/{repo}/releases/latest", method="HEAD",
+                                 headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            final = r.geturl()
+    except Exception as e:  # noqa: BLE001
+        raise NetError(f"Could not reach {'github.com'} ({type(e).__name__}).") from e
+    if "/tag/" not in final:
+        raise NetError("No release found.")
+    return final.rsplit("/", 1)[-1]
 
 
 def fetch_cached(key: str, resolve_url, dest_name: str, progress=None, cancel=None, sha256=None) -> str:

@@ -24,7 +24,7 @@ More games appear in the library automatically. Use **Settings > Check for new g
 2. Open the **Library** and click a game.
 3. Drop in or browse for your game files.
 4. Click **Build NSP** and wait for it to finish.
-5. Install the NSP on your Switch, then copy the `switch` folder from the output folder to the root of your SD card.
+5. Install the NSP on your Switch. That is all, everything is inside it.
 
 The finished files are saved in `Documents\NX Porting Kit` unless you choose another folder.
 

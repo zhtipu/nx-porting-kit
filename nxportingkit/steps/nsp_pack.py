@@ -64,7 +64,8 @@ def pack_nsp(s: dict, ctx) -> None:
     if not built:
         raise StepError("Packing finished but no NSP came out. Check that prod.keys is complete and current.")
     os.makedirs(ctx.out, exist_ok=True)
-    final = os.path.join(ctx.out, f"{_safe_name(meta['title'])} [{meta['title_id'].upper()}][v0].nsp")
+    version = _safe_name(str(meta.get("version") or ctx.port.get("version", "1.0.0")))
+    final = os.path.join(ctx.out, f"{_safe_name(meta['title'])} [{meta['title_id'].upper()}][v{version}].nsp")
     if os.path.exists(final):
         os.remove(final)
     shutil.move(built[0], final)
