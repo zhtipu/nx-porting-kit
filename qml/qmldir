@@ -1,0 +1,21 @@
+singleton Theme 1.0 Theme.qml
+singleton Util 1.0 Util.qml
+Card 1.0 Card.qml
+Btn 1.0 Btn.qml
+Chip 1.0 Chip.qml
+Field 1.0 Field.qml
+Toggle 1.0 Toggle.qml
+Combo 1.0 Combo.qml
+Icon 1.0 Icon.qml
+Sheet 1.0 Sheet.qml
+Spinner 1.0 Spinner.qml
+PageHeader 1.0 PageHeader.qml
+KV 1.0 KV.qml
+ConfirmSheet 1.0 ConfirmSheet.qml
+OpSheet 1.0 OpSheet.qml
+TabBar 1.0 TabBar.qml
+GameCard 1.0 GameCard.qml
+LibraryPage 1.0 LibraryPage.qml
+GamePage 1.0 GamePage.qml
+SettingsPage 1.0 SettingsPage.qml
+AboutPage 1.0 AboutPage.qml
