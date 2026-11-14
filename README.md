@@ -1,4 +1,5 @@
 # NX Porting Kit
+<img width="1158" height="487" alt="image" src="https://github.com/user-attachments/assets/1e08b3b5-15c8-41e2-b246-a228a0b1a0d6" />
 
 Native Nintendo Switch ports of Xbox 360 games, in one app. Pick a game, add your own copy, and get an installable NSP.
 
